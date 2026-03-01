@@ -1,0 +1,157 @@
+*** .github/workflows/playwright.yml
+name: Pw Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - name: Upload Playwright HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+
+
+*** playwright.config.js
+const { defineConfig } = require('@playwright/test');
+
+module.exports = defineConfig({
+  testDir: './tests',
+  retries: 1,
+  timeout: 30000,
+  workers: 3, // Parallel execution
+  reporter: [['html', { open: 'never' }]],
+
+  use: {
+    baseURL: 'http://localhost:3000',
+    headless: true,
+  },
+
+  projects: [
+    { name: 'Chromium', use: { browserName: 'chromium' } },
+    { name: 'Firefox', use: { browserName: 'firefox' } },    
+  ],
+  
+});
+
+
+
+*** tests\login.spec.js
+const { test, expect } = require('@playwright/test');
+const path = require('path');
+const fs = require('fs');
+
+test('custom login form - success scenario', async ({ page }) => {
+  const filePath = path.join(__dirname, '..', 'login.html');
+  const fileUrl = 'file://' + filePath;
+
+  await page.goto(fileUrl);
+
+  await page.fill('#username', 'admin');
+  await page.fill('#password', 'password');
+  await page.click('button');
+
+  await expect(page.locator('#message')).toBeVisible();
+  await expect(page.locator('#message')).toHaveText('Login successful!');
+});
+
+
+
+*** login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f2f2f2;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 2rem;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+    }
+    button {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+    }
+    .message {
+      margin-top: 1rem;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <div id="message" class="message" style="display: none;">Login successful!</div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (user === 'admin' && pass === 'password') {
+        document.getElementById('message').style.display = 'block';
+      } else {
+        alert('Invalid credentials');
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git init
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git branch -M main
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git remote add origin https://github.com/itnewcon/pwjsparalleltestcase.git
+
+
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git add .
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git commit -m "initial commit"
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git push -u origin main
