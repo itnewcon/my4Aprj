@@ -20,3 +20,16 @@ if it shows wrong repository then do the following:
 
 
 git push -u origin main
+
+
+
+
+Working Example:
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git init 
+Reinitialized existing Git repository in C:/vat/SW/CO/PlaywrightJS/D18/prj/.git/
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git add .                                                               
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git commit -m "first commit"
+[main 1391b5b] first commit
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git branch -M main
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git push -u origin main
