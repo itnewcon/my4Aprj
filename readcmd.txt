@@ -1,7 +1,22 @@
-echo "# my4Aprj" >> README.md
 git init
 git add .
 git commit -m "first commit"
 git branch -M main
+
 git remote add origin https://github.com/itnewcon/my4Aprj.git
+confirm ?
+PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git remote -v
+------------
+if it shows wrong repository then do the following:
+        //if already exist then replace with this one
+        git remote set-url origin https://github.com/itnewcon/my4Aprj.git
+
+        Example:
+            PS C:\vat\SW\CO\PlaywrightJS\D18\prj> git remote -v
+            origin  https://github.com/itnewcon/my4Aprj.git (fetch)
+            origin  https://github.com/itnewcon/my4Aprj.git (push)
+------------
+
+
+
 git push -u origin main
