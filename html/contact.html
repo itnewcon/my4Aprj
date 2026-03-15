@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Us</title>
+</head>
+
+<body>
+
+<h1>Contact Form</h1>
+
+<input id="name" placeholder="Name" />
+<br><br>
+
+<input id="email" placeholder="Email" />
+<br><br>
+
+<button onclick="submitForm()">Submit</button>
+
+<p id="result"></p>
+
+<script>
+function submitForm() {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+
+  if(name && email){
+    document.getElementById("result").innerText = "Submitted";
+  } else {
+    document.getElementById("result").innerText = "Fill all fields";
+  }
+}
+</script>
+
+</body>
+</html>

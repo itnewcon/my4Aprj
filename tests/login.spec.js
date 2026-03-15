@@ -3,9 +3,11 @@ const path = require('path');
 const fs = require('fs');
 
 test('custom login form - success scenario', async ({ page }) => {
-  const filePath = path.join(__dirname, '..', 'login.html');
+  //const filePath = path.join(__dirname, '..', 'html/login.html');
+  //const fileUrl = 'file://' + filePath;
+  
+  const filePath = path.resolve(__dirname, '../html/login.html');
   const fileUrl = 'file://' + filePath;
-
   await page.goto(fileUrl);
 
   await page.fill('#username', 'admin');

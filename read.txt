@@ -1,3 +1,10 @@
+For PW tests
+    PS C:\prj> npm init -y
+    PS C:\prj> npm install -D @playwright/test
+    PS C:\prj> npx playwright install       
+    PS C:\prj> npx playwright test  
+
+
 *** .github/workflows/playwright.yml
 name: Pw Tests
 
@@ -144,6 +151,7 @@ test('custom login form - success scenario', async ({ page }) => {
   </script>
 </body>
 </html>
+
 
 
 
